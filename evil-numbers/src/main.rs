@@ -21,9 +21,9 @@ fn main() {
     for x in 1..11 {
         let start = SystemTime::now();
         println!("Test started: {}/10", x);
-        for i in 0..5000000 {
+        for i in 0..50000000 {
             if format!("{:b}",i).matches("1").count() % 2 == 0 {
-                print!("\rProgress: ({}%)", (i/50000));
+                print!("\rProgress: ({}%)", (i/500000));
             }
         }
         print!("\rProgress: (100%)");
