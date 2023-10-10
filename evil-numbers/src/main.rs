@@ -1,4 +1,5 @@
 use std::time::SystemTime; 
+use std::env;
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
 fn println_colour(input: &str, colour: Color) {
@@ -15,15 +16,21 @@ fn println_colour(input: &str, colour: Color) {
 }
 
 fn main() {
+    let args: Vec<_> = env::args().collect();
+    let mut length = args[1].parse::<i32>().unwrap();
+    if length < 1 {
+    	length = 50000000;
+    }
     println_colour("Evil Numbers Benchmark, Logan Cammish 2023\n", Color::Black);
+    println!("Testing with preset: {} repitions (should be above 1000000 for accurate results)\n", length);
 
     let mut time = 0;
     for x in 1..11 {
         let start = SystemTime::now();
         println!("Test started: {}/10", x);
-        for i in 0..50000000 {
+        for i in 0..length {
             if format!("{:b}",i).matches("1").count() % 2 == 0 {
-                print!("\rProgress: ({}%)", (i/500000));
+                print!("\rProgress: ({}%)", (i/(length / 100)));
             }
         }
         print!("\rProgress: (100%)");
