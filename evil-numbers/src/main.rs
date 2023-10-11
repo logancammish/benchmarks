@@ -32,7 +32,7 @@ fn main() {
     for x in 1..(tests + 1) {
         let start = SystemTime::now();
         println!("Test started: {}/{}", x, tests);
-        for i in 0..length {
+        for i in 1..length {
             if format!("{:b}",i).matches("1").count() % 2 == 0 {
                 print!("\rProgress: ({}%)", (i/(length / 100)));
             }
