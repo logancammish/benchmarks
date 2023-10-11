@@ -5,10 +5,10 @@ Designed to test: CPU
 Based on the "Evil Numbers" code golf
 
 Arguments:
-1. Must be an integer. Use a value below 1 for the default setting.
-2. (not implemented yet, but will be test amount)
+1. Repitions amount. Must be an integer. Use a value below 1 for the default setting (50000000).
+2. Tests amount. Must be an integer. Use a value below 1 for the default setting (10).
 
-Usage example: `$ ./evil-numbers -1`
+Usage example: `$ ./evil-numbers -1 -1`
 
 Binaries: 
 1. `evil-numbers.exe` - Windows x86-64
