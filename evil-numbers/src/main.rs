@@ -21,13 +21,18 @@ fn main() {
     if length < 1 {
     	length = 50000000;
     }
+    let mut tests = args[2].parse::<u128>().unwrap();
+    if tests < 1 {
+        tests = 10;
+    }
+    tests += 1;
     println_colour("Evil Numbers Benchmark, Logan Cammish 2023\n", Color::Black);
     println!("Testing with preset: {} repitions (should be above 1000000 for accurate results)\n", length);
 
     let mut time = 0;
-    for x in 1..11 {
+    for x in 1..tests {
         let start = SystemTime::now();
-        println!("Test started: {}/10", x);
+        println!("Test started: {}/{}", x, tests);
         for i in 0..length {
             if format!("{:b}",i).matches("1").count() % 2 == 0 {
                 print!("\rProgress: ({}%)", (i/(length / 100)));
@@ -47,6 +52,6 @@ fn main() {
 
     println_colour("\nTest completed successfully! Getting results...", Color::Green);
     println!("Average time: {} ms | Overall time: {} ms (≈{} s)\nScore: {}", 
-                time / 11, time, time / 1000,
+                time / tests, time, time / 1000,
                 (time ^ 2) / 6);
 }
