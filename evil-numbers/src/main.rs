@@ -25,12 +25,11 @@ fn main() {
     if tests < 1 {
         tests = 10;
     }
-    tests += 1;
     println_colour("Evil Numbers Benchmark, Logan Cammish 2023\n", Color::Black);
     println!("Testing with preset: {} repitions (should be above 1000000 for accurate results)\n", length);
 
     let mut time = 0;
-    for x in 1..tests {
+    for x in 1..(tests + 1) {
         let start = SystemTime::now();
         println!("Test started: {}/{}", x, tests);
         for i in 0..length {
@@ -52,6 +51,6 @@ fn main() {
 
     println_colour("\nTest completed successfully! Getting results...", Color::Green);
     println!("Average time: {} ms | Overall time: {} ms (≈{} s)\nScore: {}", 
-                time / tests, time, time / 1000,
+                time / (tests + 1), time, time / 1000,
                 (time ^ 2) / 6);
 }
