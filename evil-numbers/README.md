@@ -1,6 +1,6 @@
 # Evil Numbers
 
-Designed to test: CPU
+Designed to test: CPU, single-threaded
 
 Based on the "Evil Numbers" code golf
 
