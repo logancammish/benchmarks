@@ -1,4 +1,6 @@
-	.text
+; generated with rustc, i did not write this
+
+ 	.text
 	.def	@feat.00;
 	.scl	3;
 	.type	0;
