@@ -1,8 +1,8 @@
 use std::time::SystemTime; 
 use std::env;
-use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
+//use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
-fn println_colour(input: &str, colour: Color) {
+/*fn println_colour(input: &str, colour: Color) {
     fn set_colour(colour: Color) {
         StandardStream::stdout(ColorChoice::Auto)
             .set_color(ColorSpec::new()
@@ -13,7 +13,7 @@ fn println_colour(input: &str, colour: Color) {
     set_colour(colour);
     println!("{}", input);
     set_colour(Color::White)
-}
+}*/
 
 fn main() {
     let args: Vec<_> = env::args().collect();
@@ -25,7 +25,7 @@ fn main() {
     if tests < 1 {
         tests = 10;
     }
-    println_colour("Evil Numbers Benchmark, Logan Cammish 2023\n", Color::Black);
+    //println_colour("Evil Numbers Benchmark, Logan Cammish 2023\n", Color::Black);
     println!("Testing with preset: {} repitions (should be above 1000000 for accurate results)\n", length);
 
     let mut time = 0;
@@ -48,9 +48,8 @@ fn main() {
         println!("\nTest {} completed in: {:?}ms\n", x, duration);
         time += duration;
     }
-
-    println_colour("\nTest completed successfully! Getting results...", Color::Green);
+   // println_colour("\nTest completed successfully! Getting results...", Color::Green);
     println!("Average time: {} ms | Overall time: {} ms (≈{} s)\nScore: {}", 
                 time / (tests + 1), time, time / 1000,
-                (time ^ 2) / 6);
+                (time ^ 2) * ((length / 10000) as  u128) / tests );
 }
