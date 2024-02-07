@@ -1,31 +1,50 @@
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] 
-use eframe::egui;
 use std::time::SystemTime;
+use iced::window::{icon, Icon};
+use iced::widget::{button, column, slider, text,text_input, vertical_space };
+use iced::{Alignment, Element, Sandbox};
+use image;
 
+pub fn main() -> iced::Result {
+    Counter::run(iced::Settings{ 
+        antialiasing: true,
+        window: iced::window::Settings {
+            size: (500, 400), 
+            .. iced::window::Settings::default()
+        },
 
-#[derive(Default)]
-struct Application { status: String, length: i32, tests: i32}
-impl Application {
+        ..iced::Settings::default() 
+    })
+}
+
+struct Counter {
+    tests: i32,
+    length: i32,
+    text: String
+}
+
+#[derive(Debug, Clone)]
+enum Message {
+    TestBegun,
+    Tests(i32),
+    Length(i32),    
+    TestsString(String),
+    LengthString(String)
+}
+
+impl Sandbox for Counter {
+    type Message = Message;
+
     fn new() -> Self {
-        Self { status: "Hello!".to_string(), length: 50000000, tests: 10 }
+        Self { text: "null".to_string(), tests: 10, length: 100000 }
     }
-}
 
-fn update_text(label_text: &mut String, context: &egui::Context, new_text: &str) {
-    label_text.clear();
-    label_text.push_str(new_text);    
-    context.request_repaint();
-}
+    fn title(&self) -> String {
+        String::from("Evil Numbers benchmark")
+    }
 
-impl eframe::App for Application {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame)  {
-        egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("Evil Numbers CPU Benchmark");
-            ui.add(egui::Slider::new(&mut self.tests, 1..=500).text("Tests"));
-            ui.add(egui::Slider::new(&mut self.length, 10..=5000000).text("Length"));
-            ui.add(egui::Label::new(&self.status));
-            
-            if ui.button("Begin test").clicked() {
+    fn update(&mut self, message: Message) {
+        match message {
+            Message::TestBegun => {
                 let mut time: i32 = 0;
                 for _ in 1..(self.tests + 1) {
                     let start = SystemTime::now();
@@ -40,32 +59,67 @@ impl eframe::App for Application {
                     time += duration;
                 }
                 
-                update_text(&mut self.status, &ctx, 
-                format!("Average time: {} ms | Overall time: {} ms (≈{} s)\nScore: {}", 
+                self.text = format!("Average time: {} ms | Overall time: {} ms (≈{} s)\nScore: {}", 
                     time / (self.tests + 1), time, time / 1000,
-                    (time ^ 2) / 6).as_str());
+                    (time ^ 2) * (self.length / 10000) / self.tests );
             }
-        });
+            Message::Tests(tests) => { 
+                self.tests = tests;
+                self.text = format!("Tests: {}\nLength: {}", self.tests, self.length).to_string(); 
+            }
+            Message::Length(length) => { 
+                self.length = length;
+                self.text = format!("Tests: {}\nLength: {}", self.tests, self.length).to_string(); 
+            }
+            Message::TestsString(text) => {
+                self.tests = text.parse::<i32>().unwrap();
+            }
+            Message::LengthString(text) => {
+                self.length = text.parse::<i32>().unwrap();
+            }
+        }
     }
-}
 
+    fn view(&self) -> Element<Message> {
+        column![
+            text("Tests:").size(30),
+            slider(1..=500, self.tests, Message::Tests),
+            text_input("Tests", &self.tests.to_string())
+                .on_input(Message::TestsString)
+                .on_submit(Message::Tests(self.tests))
+                .padding(10),
 
+            text("Length:").size(30),
+            slider(100000..=5000000, self.length, Message::Length),
+            text_input("Length", &self.length.to_string())
+                .on_input(Message::LengthString)
+                .on_submit(Message::Tests(self.length))
+                .padding(10),
+            vertical_space(5),
 
-fn main() -> Result<(), eframe::Error>  {
-    const ICON: &[u8; 15952] = include_bytes!("../icon.png");
-    let options = eframe::NativeOptions {
-        initial_window_size: Some(egui::vec2(320.0, 240.0)),
-        icon_data: Some(eframe::IconData {
-            rgba: ICON.to_vec(),
-            width: 32,
-            height: 32,
-        }),
-        ..Default::default()
-    };
+            button("begin")
+                .on_press(Message::TestBegun)
+                .padding(5),
+            
+            text(&self.text)
+                .size(30),
+            vertical_space(15),
+            text("Licensed under the GPL-3.0 license, created by Logan Cammish 2024.")
+                .size(10)
+        ].padding(20)
+        .align_items(Alignment::Start)
+        .into()
+    }
 
-    eframe::run_native(
-        "Evil Numbers Benchmark", 
-        options, 
-        Box::new(|_cc| Box::<Application>::default())
-    )    
+    fn theme(&self) -> iced::Theme {
+        iced::Theme::default()
+    }
+
+    fn style(&self) -> iced::theme::Application {
+        iced::theme::Application::default()
+    }
+
+    fn scale_factor(&self) -> f64 {
+        1.0
+    }
 }
