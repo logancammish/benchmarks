@@ -35,10 +35,9 @@ fn main() {
         let handle = thread::spawn(move || { 
             for i in 1..length {
                 if format!("{:b}",i).matches("1").count() % 2 == 0 {
-                    print!("\rProgress: ({}%)", (i/(length / 100)));
                 }
             }
-            print!("\rProgress: (100%)");
+            print!("Test completed");
         });
         handle.join().unwrap();
 
