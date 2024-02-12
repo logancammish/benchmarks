@@ -11,8 +11,9 @@ Arguments:
 Usage example: `$ ./evil-numbers -1 -1`
 
 Binaries: 
-1. `evil-numbers.exe` - Windows x86-64
-2. `evil-numbers` - Linux x86-64
+1. `evil-numbers` - Linux x86-64
+ 
+> No Windows binaries are provided. Please build your own binary using `cargo build --release`.
 
 Result: 
 1. Average time - the time it takes to run each test on average in milliseconds (lower is better)
