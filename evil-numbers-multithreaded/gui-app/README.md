@@ -10,6 +10,7 @@ Arguments:
 
 Binaries: 
 1. `evil_numbers_benchmark` - Linux x86-64
+1. `evil_numbers_benchmark.exe` - Windows x86-64
 
 Result: 
 1. Average time - the time it takes to run each test on average in milliseconds  
