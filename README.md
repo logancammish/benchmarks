@@ -1,5 +1,5 @@
 # Logan Cammish Benchmarks
-> Copyright (C) Logan Cammish 2024
+> Copyright © Logan Cammish 2024
 
 Downloads: https://logancammish.github.io/benchmarking.html
 
