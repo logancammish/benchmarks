@@ -4,6 +4,7 @@ use iced::widget::{button, column, slider, text,text_input, vertical_space };
 use iced::{Alignment, Element, Sandbox};
 use image;
 use std::thread;
+use num_cpus;
 
 pub fn main() -> iced::Result {
     Counter::run(iced::Settings{ 
@@ -46,18 +47,24 @@ impl Sandbox for Counter {
     fn update(&mut self, message: Message) {
         match message {
             Message::TestBegun => {
+                let numcpus = num_cpus::get();
+                println!("{numcpus}");
+
                 let mut time: i32 = 0;
                 for _ in 1..(self.tests + 1) {
                     let length = self.length;
                     let start = SystemTime::now();
-
-                    let handle = thread::spawn(move || { 
-                        for i in 1..length {
-                            if format!("{:b}",i).matches("1").count() % 2 == 0 {
-                            }
-                        }
-                    });
-                    handle.join().unwrap();
+                    
+                    for _ in 1..numcpus {
+                        let handle = thread::spawn(move || {
+                            thread::spawn(move || { 
+                                for i in 1..length {
+                                    if format!("{:b}",i).matches("1").count() % 2 == 0 {}
+                                }
+                            });
+                        });
+                        handle.join().unwrap();
+                    }
 
                     let finish = SystemTime::now();
                     let duration = finish
