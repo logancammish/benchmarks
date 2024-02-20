@@ -1,5 +1,7 @@
 # Evil Numbers
 
+> Please note: The CLI version is outdated
+
 Designed to test: CPU, multi-threaded
 
 Based on the "Evil Numbers" code golf
@@ -13,7 +15,7 @@ Usage example: `$ ./evil-numbers -1 -1`
 Binaries: 
 1. `evil-numbers` - Linux x86-64
  
-> No Windows binaries are provided. Please build your own binary using `cargo build --release`.
+> No Windows binaries are provided. Please build your own binary using `cargo build --release`. 
 
 Result: 
 1. Average time - the time it takes to run each test on average in milliseconds (lower is better)
